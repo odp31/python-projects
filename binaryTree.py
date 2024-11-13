@@ -56,6 +56,29 @@ self.pre_order_traveral(root.right)
       return self._search(root.left, key) 
     return self._search(root.right, key) 
 
+  def delete_node(root, key):
+    if root is None:
+      return root 
+    if key < root.val:
+      root.left = delete_node(root.left, key)
+    elif key > root.val:
+      root.right = delete_node(root.right, key) 
+    else:
+      # node w/ one or no child
+      if root.left is None:
+        temp = root.right
+        root = None
+        return temp 
+      elif root.right is None:
+        temp = root.left 
+        root = None
+        return temp 
+      # node w/ 2 children
+      temp = min_value_node(root.right)
+      root.val = temp.val
+      root.right = delete_node(root.right, temp.val) 
+    return root 
+
 
 # Example usage
 bt = BinaryTree()
