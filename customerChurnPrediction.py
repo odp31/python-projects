@@ -33,10 +33,41 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # model building and training 
-model = LogisticRegression()
-model.fit(X_train_scaled, y_train)
+models = {
+  'Logistic Regression': LogisticRegression(),
+  'Decision Tree': DecisionTreeClassifier(),
+  'Random Forest': RandomForestClassifier()
+}
 
-# model evaluation
-y_pred = model.predict(X_test_scaled)
-print(classification_report(y_test, y_pred))
-print(confusion_matrix(y_test, y_pred))
+for name, model in models.items():
+  model.fit(X_train_scaled, y_train)
+  y_pred = model.predict(X_test_scaled)
+
+  print(f"Model: {name}")
+  print(classification_report(y_test, y_pred))
+  print(confusion_matrix(y_test,y_pred))
+
+
+# visualizing results 
+# confusion matrix visualization 
+plt.figure(figsize=(10,7))
+sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='d')
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
+
+# ROC Curve 
+from sklearn.metrics import roc_curve, auc 
+
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba[:, 1])
+roc_auc = auc(fpr, tpr)
+
+plt.plot(fpr, tpr, color='darkorange', label= 'ROC curve (area = %0.2f)' % roc_auc)
+plt.plot([0,1], [0,1], color='navy', linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.show() 
+
