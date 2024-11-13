@@ -41,3 +41,47 @@ def tower_of_hanoi(n, source, destination, auxiliary):
 # example usage
 n = 3 
 tower_of_hanoi(n, 'A', 'C', 'B')
+
+
+
+# 3. n queens problem: classic backtracking problem where you need to place N chess queens on an N x N chessboard
+# such that no two queens attack eachother 
+
+def is_safe(board, row, col):
+  # check this row on left side
+  for i in range(col):
+    if board[row][i] == 1:
+      return False
+
+  # check upper diagonal on left side
+  for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+    if board[i][j] == 1:
+      return False
+
+  # check lower diagonal on left side 
+  for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
+    if board[i][j] == 1:
+      return False
+  return True 
+
+def solve_n_queens_until(board, col):
+  if col >= len(board):
+    return True
+  for i in range(len(board)):
+    if is_safe(board, i, col):
+      board[i][col] = 1
+      if solve_n_queens_util(board, col + 1):
+        return True
+      board[i][col] = 0
+
+def solve_n_queens(n):
+  board = [[0] * n for i in range(n)]
+  if not solve_n_queens_util(board, 0):
+    print("Solution doesn't exist")
+    return False
+  print(board)
+  return True 
+
+# example usage
+n = 4
+solve_n_queens(n) 
