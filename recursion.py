@@ -85,3 +85,69 @@ def solve_n_queens(n):
 # example usage
 n = 4
 solve_n_queens(n) 
+
+
+# 4. reverse a string recursively 
+def reverse_string(s):
+  if len(s) <= 1:
+    return s
+  else:
+    return reverse_string(s[1:]) + s[0]
+print(reverse_string("hello")) # output = olleh
+
+# 4. check if string is palindrome recurisvely 
+def is_palindrome(s):
+  if len(s) <= 1:
+    return True
+  else:
+    return s[0] == s[-1] and is_palindrome(s[1:-1])
+
+print(is_palindrome("racecar")) # true
+print(is_palindrome("hello")) # false 
+
+
+# 5. generate permutations of a string 
+def permutations(s):
+  if len(s) == 0:
+    return ['']
+  perm_lis = []
+  for char in s:
+    remaining_chars = s.replace(char, '', 1)
+    for p in permutations(remaining_chars):
+      perm_list.append(char + p)
+  return perm_list
+
+print(permutations("abc")) # output: ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+
+
+# 6. binary search recursively 
+def rec_BinSearch(arr, target, low, high):
+  if low > high:
+    return -1
+  mid = (low + high) // 2
+  if arr[mid] == target:
+    return mid
+  elif arr[mid] < target:
+    return rec_BinSearch(arr, target, mid+1, high)
+  else:
+    return rec_BinSearch(arr, target, low, mid-1)
+
+arr = [2, 3, 4, 10, 40]
+target = 10
+result = rec_BinSearch(arr, target, 0, len(arr) -1)
+if result != -1:
+  print("element is present at index", str(result))
+else:
+  print("element is not present in array") 
+
+# 7. calculate power of a number recursively 
+def power(base, exponent):
+  if exponent == 0:
+    return 1
+  elif exponent % 2 == 0:
+    return power(base * base, exponent // 2)
+  else:
+    return base * power(base, exponent - 1)
+
+print(power(2,3))    # output = 8
+print(power(5,4))    # output = 625
